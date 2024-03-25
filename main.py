@@ -27,4 +27,19 @@ df["overweight"] = (BMI > 25).astype(int)
 df["cholesterol"] = (df["cholesterol"] > 1).astype(int)
 df["gluc"] = (df["gluc"] > 1).astype(int)
 
-print (df.head())
+#pd.melt?
+df_cat = pd.melt(df, id_vars="cardio", value_vars=["cholesterol", "gluc", "smoke", "alco", "active", "overweight"])
+df_cat = df_cat.groupby(["cardio", "variable"])["value"].value_counts().reset_index(name="counts")
+
+catplot = sns.catplot(data=df_cat, x="variable", y="counts", col="cardio", kind="bar", hue="value")
+
+
+# Get the figure for the output
+fig = catplot.fig
+
+
+# Do not modify the next two lines
+fig.savefig('catplot.png')
+#return fig
+
+print (df_cat.head(20))
