@@ -12,7 +12,9 @@ BMI = df["weight"]/((df["height"])/100)**2
 # Add 'overweight' column
 df["overweight"] = (BMI > 25).astype(int)
 
-# Normalize data by making 0 always good and 1 always bad. If the value of 'cholesterol' or 'gluc' is 1, make the value 0. If the value is more than 1, make the value 1.
+# Normalize data by making 0 always good and 1 always bad. 
+#If the value of 'cholesterol' or 'gluc' is 1, make the value 0. If the value is more than 1, make the value 1.
+# normalize cholesterol and gluc
 df["cholesterol"] = (df["cholesterol"] > 1).astype(int)
 df["gluc"] = (df["gluc"] > 1).astype(int)
 
@@ -31,7 +33,6 @@ def draw_cat_plot():
     # Get the figure for the output
     fig = catplot.fig
 
-
     # Do not modify the next two lines
     fig.savefig('catplot.png')
     return fig
@@ -40,6 +41,7 @@ def draw_cat_plot():
 # Draw Heat Map
 def draw_heat_map():
     # Clean the data
+    #we are keeping the following: ap_hi >= ap_lo AND q0.025<=height<=0.975 AND q0.025<=weight<=0.975
     df_heat = df[(df["ap_lo"] <= df["ap_hi"])
             & (df["height"] >= df["height"].quantile(0.025))
             & (df["height"] <= df["height"].quantile(0.975))
